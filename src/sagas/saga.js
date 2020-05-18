@@ -6,7 +6,8 @@ import { REQUEST_INBOX_DATA, receiveInboxData } from "../actions/inboxMail";
 
 const fetchInbox = async () => {
   try {
-    const response = await fetch("");
+    console.log("call the api")
+    const response = await fetch("https://my-json-server.typicode.com/frescoplaylab/React-E2-Json_server/inbox");
     const data = await response.json();
     return data;
   } catch (e) {
@@ -30,6 +31,7 @@ const fetchInboxData = async (id) => {
 function* getApiData(action) {
   try {
     // do api call
+    console.log("do api call");
     const data = yield call(fetchInbox);
     yield put(receiveApiData(data));
   } catch (e) {

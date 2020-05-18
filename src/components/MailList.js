@@ -41,6 +41,8 @@ export class MailList extends React.Component {
     this.handleOnChange = this.handleOnChange.bind(this);
     this.handleMailDelete = this.handleMailDelete.bind(this);
     this.handleDropdownChange = this.handleDropdownChange.bind(this);
+    this.handleNextPage = this.handleNextPage.bind(this);
+    this.handlePrePage = this.handlePrePage.bind(this);
   }
 
   handleOnChange(e) {
@@ -79,11 +81,11 @@ export class MailList extends React.Component {
   }
 
   handleNextPage() {
-    this.setState({ startmail: this.state.startmail });
+    this.setState({ startmail: this.state.startmail + 6});
   }
   handlePrePage() {
    
-    this.setState({ startmail: this.state.startmail });
+    this.setState({ startmail: this.state.startmail - 6});
   }
   paginate(mails) {
     var mail_per_page = {};
@@ -93,7 +95,11 @@ export class MailList extends React.Component {
       
       mail_per_page.islastPage = true;
     }
-    mails = mails.slice(this.state.startmail, this.state.startmail);
+    
+    console.log("paginate mails ****", mails);
+    mails = mails.slice(this.state.startmail, this.state.startmail+6);
+    console.log("paginate mails slice ****", mails, this.state.startmail);
+
     mail_per_page.mails = mails;
     
     return mail_per_page;
@@ -107,6 +113,7 @@ export class MailList extends React.Component {
   }
 
   componentDidMount() {
+    console.log("MailList **** componentDidMount *****",this.props.data);
      this.props.readSentMail();
     this.props.readDraftMail();
     this.props.readDeleteMail();
@@ -186,7 +193,8 @@ export class MailList extends React.Component {
     var data;
     if (this.props.display == "inbox") {
       results = this.props.data.data;
-      
+      console.log("MailList ***** results ***",results);
+
       data = this.props.inboxData;
     } else if (this.props.display == "sent") {
       results = this.props.sent.data;
@@ -211,16 +219,25 @@ export class MailList extends React.Component {
             .includes(this.state.searchText.toLowerCase()) ||
           item.from.toLowerCase().includes(this.state.searchText.toLowerCase())
       );
+
+      console.log("filtered MailList **** ", filteredList);
+
       //dropdown sorting
       if (this.state.selectValue == "latest") {
         filteredList.sort((a, b) => a.time < b.time);
       } else {
         filteredList.sort((a, b) => a.time > b.time);
       }
+
+      console.log("filtered MailList sorted **** ", filteredList);
+
       const mail_list_temp = filteredList;
       //rendering list
       var mail_list_per_page = this.paginate(mail_list_temp);
       var is_last = mail_list_per_page.islastPage;
+
+      console.log("mail_list_per_page MailList **** ", mail_list_per_page);
+
       mail_list = mail_list_per_page.mails.map(
         function(mail) {
           return (
@@ -248,6 +265,7 @@ export class MailList extends React.Component {
                 {this.props.display == "trash" ? "Restore" : "Delete"}
               </button>
 
+              <h5>{mail.subject}</h5>
             
 
               <i className="time pull-right">
@@ -258,6 +276,8 @@ export class MailList extends React.Component {
         }.bind(this)
       );
     }
+
+    console.log("mail_list MailList **** ", mail_list);
 
     if (!mail_list) {
       is_last = true;
@@ -302,7 +322,7 @@ export class MailList extends React.Component {
                 <button
                   disabled={this.state.startmail ? false : true}
                   className="previous pull-left"
-                
+                  onClick={this.handlePrePage}
                 >
                   {" "}
                   ❮ Prev{" "}
@@ -310,7 +330,7 @@ export class MailList extends React.Component {
                 <button
                   disabled={is_last}
                   className="next pull-right"
-                
+                  onClick={this.handleNextPage}
                 >
                   Next ❯
                 </button>

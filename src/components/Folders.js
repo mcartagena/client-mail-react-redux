@@ -13,7 +13,12 @@ export class Folders extends React.Component {
 		this.handleCompose = this.handleCompose.bind(this);
 	}  
   componentWillMount() {
-    console.log("******component Will********");
+    console.log("******component Will requestApiData********");    
+    this.props.requestApiData();
+  }
+  componentDidMount(){
+    console.log("******component Did requestApiData********"); 
+    console.log("estado",this.props.data);
   }
   handleCompose() {
     this.props.storeComposeMail({
@@ -75,10 +80,14 @@ export class Folders extends React.Component {
   }
 }
 
+const mapStateToProps = state => ({
+  data: state
+})
+
 const mapDispatchToProps = dispatch =>
   bindActionCreators({ storeComposeMail, requestApiData }, dispatch);
 
-export default connect(null, mapDispatchToProps, null, { pure: false })(
+export default connect(mapStateToProps, mapDispatchToProps, null, { pure: false })(
   Folders
 );
 
