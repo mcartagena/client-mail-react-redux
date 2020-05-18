@@ -32,7 +32,7 @@
 
 - Clicking the mail should display details of the mail in the Mail component.
 
-- Get mail details from <https://my-json-server.typicode.com/frescoplaylab/React-E2-Json_server/mail/:id> for each mail.
+- Get mail details from <https://my-json-server.typicode.com/frescoplaylab/React-E2-Json_server/mails/:id> for each mail.
 
 - Clicking the delete button should move the mail to the trash folder.
 

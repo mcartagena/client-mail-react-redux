@@ -38,7 +38,21 @@ export default (state = {}, action) => {
           }
         }
         if (!found) {
-          
+          let newElement = {
+            id: action.payload.id,
+            from: action.payload.from,
+            to: action.payload.to,
+            subject: action.payload.subject,
+            folder: action.payload.folder,
+            folderId: action.payload.folderId,
+            time: action.payload.time,
+            body: action.payload.body
+          }
+          return {
+            ...state,
+            data: newElement
+          };
+
         }
       } else {
         

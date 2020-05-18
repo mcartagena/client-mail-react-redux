@@ -26,6 +26,7 @@ export class Mail extends React.Component {
 	}
 	render() {
 		let mail_body_id = this.props.mail;
+		console.log("Mail ******", mail_body_id);
 		if (mail_body_id == 0) {
 			var mailbody = (
 				<div className="emptymail">

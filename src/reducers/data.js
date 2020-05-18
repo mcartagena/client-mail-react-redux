@@ -25,11 +25,12 @@ export default (state = {}, action) => {
 
     case DELETE_INBOX_MAIL:
 
+      let newStateDeleted = state.data.filter((el, index, arr) => { return el.id != action.id; })
 
-      return initialState;
-      break;
-
-
+      return {
+        ...state,
+        data: newStateDeleted
+      };
 
     default:
       return state;

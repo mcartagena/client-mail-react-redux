@@ -109,6 +109,7 @@ export class MailList extends React.Component {
     var mailDetails = newState;
     mailDetails.folder = folder;
     mailDetails.folderId = newState.id;
+    console.log("moveToDelete *****",mailDetails);
     this.props.storeDeleteMail(mailDetails);
   }
 
@@ -118,12 +119,14 @@ export class MailList extends React.Component {
     this.props.readDraftMail();
     this.props.readDeleteMail();
   }
+
   handleMailClick(id) {
     var mailData;
-
+    
     if (this.props.display == "inbox") {
       this.props.requestInboxData(id);
-
+      console.log("MailList handleMailClick ****",this.props.inboxData ,id);
+      this.setState({ activeMail: id });
       return this.props.inboxData;
     } else if (this.props.display == "sent") {
       var mail = this.props.sent.data.map(
@@ -159,12 +162,13 @@ export class MailList extends React.Component {
     //move to trash
     var deleted = false;
     newState = Object.assign({}, this.props.inboxData);
+    
     if (
       this.state.deleteid == newState.id ||
       this.state.deleteid == this.state.mailData.id
     ) {
       if (this.props.display == "inbox") {
-        console.log(newState);
+        console.log("moveToDelete",newState);
         this.moveToDelete(newState, this.props.display);
       } else if (
         this.props.display == "sent" ||
@@ -248,7 +252,8 @@ export class MailList extends React.Component {
               }
               key={mail.id}
               onClick={() => {
-               
+               data = this.handleMailClick(mail.id);
+               console.log("data value onClick button******",data);
               }}
             >
               <i>{this.props.display == "inbox" ? mail.from : mail.to}</i>
@@ -338,6 +343,7 @@ export class MailList extends React.Component {
             </div>
           </div>
         </div>
+        {console.log("MailList calling Mail component ****", data,activeMail)}
         <Mail
           folder={this.props.display}
           inboxData={data}

@@ -18,7 +18,7 @@ const fetchInbox = async () => {
 const fetchInboxData = async (id) => {
   try {
     
-    const response = await fetch(""+id);
+    const response = await fetch("https://my-json-server.typicode.com/frescoplaylab/React-E2-Json_server/mails/"+id);
     const inboxData = await response.json();
     return inboxData;
   } catch (e) {
@@ -42,6 +42,7 @@ function* getApiData(action) {
 function* getInboxData(action) {
   try {
     // do api call
+    console.log("calling inboxData api ******");
     const inboxData = yield call(fetchInboxData,action.payload);
     yield put(receiveInboxData(inboxData));
   } catch (e) {
