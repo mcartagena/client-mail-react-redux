@@ -15,52 +15,65 @@ initialState.data = [
     folder: "sent",
     folderId: "2",
     time: "2018-01-23T18:25",
-    body: "you can restore this" 
+    body: "you can restore this"
   }
 ];
 
 export default (state = {}, action) => {
   switch (action.type) {
     case READ_TRASH_MAIL:
-      return initialState;
+
+      if (state.data) {
+        console.log("READ_TRASH_MAIL ****", state);
+        return state;
+      } else {
+        return initialState;
+      }
       break;
     case STORE_TRASH_MAIL:
+      /*
       if (action.payload.folder == "inbox") {
-        var found = false;
-        for (var i = 0; i < initialState.data.length; i++) {
-          if (
-            initialState.data[i].folderId == action.payload.folderId &&
-            initialState.data[i].folder == "inbox"
-          ) {
-            found = true;
-            console.log(initialState.data[i].folderId);
+          
+          var found = false;
+          for (var i = 0; i < initialState.data.length; i++) {
+            if (
+              initialState.data[i].folderId == action.payload.folderId &&
+              initialState.data[i].folder == "inbox"
+            ) {
+              found = true;
+              console.log(initialState.data[i].folderId);
+              break;
+            }
+          }
+          if (!found) { */
+      let newElement = state.data;
+      newElement = [
+        ...newElement,
+        {
+          id: action.payload.id,
+          from: action.payload.from,
+          to: action.payload.to,
+          subject: action.payload.subject,
+          folder: action.payload.folder,
+          folderId: action.payload.folderId,
+          time: action.payload.time,
+          body: action.payload.body
+        }];
+      console.log("STORE_TRASH_MAIL ****", state);
+      return {
+        ...state,
+        data: newElement
+      };
+    /*
+            }
+          } else {
+            
+            return initialState;
             break;
-          }
-        }
-        if (!found) {
-          let newElement = {
-            id: action.payload.id,
-            from: action.payload.from,
-            to: action.payload.to,
-            subject: action.payload.subject,
-            folder: action.payload.folder,
-            folderId: action.payload.folderId,
-            time: action.payload.time,
-            body: action.payload.body
-          }
-          return {
-            ...state,
-            data: newElement
-          };
+          }  */
 
-        }
-      } else {
-        
-        return initialState;
-        break;
-      }
     case RESTORE_TRASH_MAIL:
-      
+
 
       return initialState;
       break;

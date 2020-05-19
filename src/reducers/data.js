@@ -16,8 +16,6 @@ export default (state = {}, action) => {
         }
       ));
 
-      console.log("reducer ...", newState);
-
       return {
         ...state,
         data: newState
@@ -25,8 +23,11 @@ export default (state = {}, action) => {
 
     case DELETE_INBOX_MAIL:
 
-      let newStateDeleted = state.data.filter((el, index, arr) => { return el.id != action.id; })
-
+      let newStateDeleted = state.data;
+      newStateDeleted = newStateDeleted.filter((el, index, arr) => { 
+        return el.id != action.payload; }
+        );
+      
       return {
         ...state,
         data: newStateDeleted

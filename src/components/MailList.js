@@ -77,7 +77,7 @@ export class MailList extends React.Component {
     if (this.props.display == "trash") {
       this.props.restoreDeleteMail(id);
     }
-    this.setState({ deleteid: id });
+    this.setState({ deleteid: id });   
   }
 
   handleNextPage() {
@@ -169,7 +169,7 @@ export class MailList extends React.Component {
     ) {
       if (this.props.display == "inbox") {
         console.log("moveToDelete",newState);
-        this.moveToDelete(newState, this.props.display);
+        this.moveToDelete(newState, this.props.display);        
       } else if (
         this.props.display == "sent" ||
         this.props.display == "draft"
@@ -190,6 +190,7 @@ export class MailList extends React.Component {
         }
       }
       deleted = true;
+      this.setState({ deleteid: 0 }); 
     }
     let activeMail = deleted ? 0 : this.state.activeMail;
     let results = [];
@@ -281,8 +282,6 @@ export class MailList extends React.Component {
         }.bind(this)
       );
     }
-
-    console.log("mail_list MailList **** ", mail_list);
 
     if (!mail_list) {
       is_last = true;
