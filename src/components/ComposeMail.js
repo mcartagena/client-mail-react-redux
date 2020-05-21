@@ -16,12 +16,14 @@ export class ComposeMail extends React.Component {
       time: "",
       body: "",
       error: false,
-      valid: false
+      valid: false,
+      folder: "draft"
     };
  
     this.handleOnChange = this.handleOnChange.bind(this);
     this.handleOnSubmit = this.handleOnSubmit.bind(this);
     this.handleOnSave = this.handleOnSave.bind(this);
+    this.submitOnSave = this.submitOnSave.bind(this);
     this.submitValidation = this.submitValidation.bind(this);
 
   }
@@ -148,7 +150,7 @@ export class ComposeMail extends React.Component {
               <NavLink
                 className="composebtn "
                 to="/draft"
-                onClick={this.handleOnSave}
+                onClick={this.submitOnSave}
               >
                 <button
                   type="submit"

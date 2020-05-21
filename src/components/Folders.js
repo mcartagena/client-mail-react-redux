@@ -22,7 +22,7 @@ export class Folders extends React.Component {
   }
   handleCompose() {
     this.props.storeComposeMail({
-      id: "",
+      id: (Math.floor(Math.random()*2000)+1000),
       from: "user@tcs.com",
       to: "",
       subject: "",

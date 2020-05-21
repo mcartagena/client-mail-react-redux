@@ -123,10 +123,10 @@ export class MailList extends React.Component {
   handleMailClick(id) {
     var mailData;
     
+    this.setState({ activeMail: id });
     if (this.props.display == "inbox") {
       this.props.requestInboxData(id);
       console.log("MailList handleMailClick ****",this.props.inboxData ,id);
-      this.setState({ activeMail: id });
       return this.props.inboxData;
     } else if (this.props.display == "sent") {
       var mail = this.props.sent.data.map(
@@ -141,12 +141,14 @@ export class MailList extends React.Component {
       var mail = this.props.draft.data.map(
         function(mail) {
           if (mail.id === id) {
+            console.log("handleMailClick trash ****", id, mail);
             this.setState({ mailData: mail });
           }
           return mail;
         }.bind(this)
       );
     } else if (this.props.display == "trash") {
+      
       var mail = this.props.trash.data.map(
         function(mail) {
           if (mail.id === id) {
@@ -178,7 +180,7 @@ export class MailList extends React.Component {
         this.moveToDelete(newState, this.props.display);
       } else if (this.props.display == "trash") {
         var newState = Object.assign({}, this.state.mailData);
-        console.log(newState);
+        console.log("trash newState *******",newState);
         if (newState.folder == "inbox") {
           newState.id = newState.folderId;
           this.props.data.data.push(newState);
@@ -198,7 +200,7 @@ export class MailList extends React.Component {
     var data;
     if (this.props.display == "inbox") {
       results = this.props.data.data;
-      console.log("MailList ***** results ***",results);
+      
 
       data = this.props.inboxData;
     } else if (this.props.display == "sent") {
@@ -207,6 +209,8 @@ export class MailList extends React.Component {
     } else if (this.props.display == "draft") {
       results = this.props.draft.data;
       data = this.state.mailData;
+      console.log("MailList ***** results ***",results);
+      console.log("MailList ***** mailData ***",data);      
     } else if (this.props.display == "trash") {
       results = this.props.trash.data;
       data = this.state.mailData;

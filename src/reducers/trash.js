@@ -29,7 +29,6 @@ export default (state = {}, action) => {
       } else {
         return initialState;
       }
-      break;
     case STORE_TRASH_MAIL:
       /*
       if (action.payload.folder == "inbox") {
@@ -46,7 +45,10 @@ export default (state = {}, action) => {
             }
           }
           if (!found) { */
-      let newElement = state.data;
+      let newElement = [];
+      if(state.data){
+        newElement = state.data;
+      }
       newElement = [
         ...newElement,
         {
@@ -74,9 +76,15 @@ export default (state = {}, action) => {
 
     case RESTORE_TRASH_MAIL:
 
-
-      return initialState;
-      break;
+      let newStateRestored = state.data;
+      newStateRestored = newStateRestored.filter((el, index, arr) => { 
+        return el.id != action.payload; }
+        );
+      
+      return {
+        ...state,
+        data: newStateRestored
+      };
     default:
       return state;
   }
