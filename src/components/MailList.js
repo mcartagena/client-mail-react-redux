@@ -265,7 +265,7 @@ export class MailList extends React.Component {
               <button
                 type="button"
                 className={
-                  "" +
+                  "delete-button pull-right" +
                   (this.props.display == "trash" ? " restore" : "")
                 }
                 onClick={() => {

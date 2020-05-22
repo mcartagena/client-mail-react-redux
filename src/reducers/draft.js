@@ -69,16 +69,28 @@ export default (state = {}, action) => {
 
     case RESTORE_DRAFT_MAIL:
 
-      let newStateRestored = state.data;
-      newStateRestored = newStateRestored.filter((el, index, arr) => {
-        return el.id != action.payload;
+      let newRefactor = [];
+      if (state.data) {
+        newRefactor = state.data;
       }
-      );
-
+      newRefactor = [
+        ...newRefactor,
+        {
+          id: action.payload.id,
+          from: action.payload.from,
+          to: action.payload.to,
+          subject: action.payload.subject,
+          folder: action.payload.folder,
+          folderId: action.payload.folderId,
+          time: action.payload.time,
+          body: action.payload.body
+        }];
+      console.log("RESTORE_DRAFT_MAIL ****", newRefactor);
       return {
         ...state,
-        data: newStateRestored
+        data: newRefactor
       };
+
     default:
       return state;
   }

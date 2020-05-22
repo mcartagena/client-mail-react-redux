@@ -50,9 +50,9 @@ export default (state = {}, action) => {
         newElement = state.data;
       }
       newElement = [
-        ...newElement,
+        ...newElement,        
         {
-          id: action.payload.id,
+          id: state.id?state.id:3001,
           from: action.payload.from,
           to: action.payload.to,
           subject: action.payload.subject,
@@ -64,6 +64,7 @@ export default (state = {}, action) => {
       console.log("STORE_TRASH_MAIL ****", state);
       return {
         ...state,
+        id:state.id?parseInt(state.id)+1:3002,
         data: newElement
       };
     /*

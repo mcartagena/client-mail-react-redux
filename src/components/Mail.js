@@ -18,10 +18,31 @@ export class Mail extends React.Component {
 	handleCompose(e) {
 		this.props.storeComposeMail(this.props.inboxData);
 	}
- 
+
 	converttime(time) {
+
 		var data = {};
-		
+
+		if (isNaN(time) && !isNaN(Date.parse(time))) {
+			let d = new Date(time);
+			let year = d.getFullYear();
+			let month = (1 + d.getMonth()).toString();
+			let day = d.getDate().toString();
+			let options = {
+				hour: 'numeric',
+				minute: 'numeric',
+				second: 'numeric',
+				hour12: true,
+				timeZone: 'UTC',
+			};
+			let newTime = new Intl.DateTimeFormat('default', options).format(d);
+
+			data = {
+				"date": month + '/' + day + '/' + year,
+				"time": newTime
+			}; 
+		}
+
 		return data;
 	}
 	render() {
@@ -83,7 +104,7 @@ export class Mail extends React.Component {
 					<NavLink
 						className="composebtn"
 						to="/composemail"
-						
+						onClick={this.handleCompose}
 					>
 						<button
 							type="submit"
