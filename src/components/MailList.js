@@ -52,9 +52,29 @@ export class MailList extends React.Component {
   }
 
   converttime(time) {
-    var data = {};
-   
-    return data;
+		var data = {};
+
+		if (isNaN(time) && !isNaN(Date.parse(time))) {
+			let d = new Date(time);
+			let year = d.getFullYear();
+			let month = (1 + d.getMonth()).toString();
+			let day = d.getDate().toString();
+			let options = {
+				hour: 'numeric',
+				minute: 'numeric',
+				second: 'numeric',
+				hour12: true,
+				timeZone: 'Asia/Colombo',
+			};
+			let newTime = new Intl.DateTimeFormat('default', options).format(d);
+
+			data = {
+				"date": month + '/' + day + '/' + year,
+				"time": newTime
+			}; 
+		}
+
+		return data;
   }
 
   handleDropdownChange(e) {
@@ -96,10 +116,7 @@ export class MailList extends React.Component {
       mail_per_page.islastPage = true;
     }
     
-    console.log("paginate mails ****", mails);
     mails = mails.slice(this.state.startmail, this.state.startmail+6);
-    console.log("paginate mails slice ****", mails, this.state.startmail);
-
     mail_per_page.mails = mails;
     
     return mail_per_page;
@@ -109,13 +126,11 @@ export class MailList extends React.Component {
     var mailDetails = newState;
     mailDetails.folder = folder;
     mailDetails.folderId = newState.id;
-    console.log("moveToDelete *****",mailDetails);
     this.props.storeDeleteMail(mailDetails);
   }
 
   componentDidMount() {
-    console.log("MailList **** componentDidMount *****",this.props.data);
-     this.props.readSentMail();
+    this.props.readSentMail();
     this.props.readDraftMail();
     this.props.readDeleteMail();
   }
@@ -126,7 +141,6 @@ export class MailList extends React.Component {
     this.setState({ activeMail: id });
     if (this.props.display == "inbox") {
       this.props.requestInboxData(id);
-      console.log("MailList handleMailClick ****",this.props.inboxData ,id);
       return this.props.inboxData;
     } else if (this.props.display == "sent") {
       var mail = this.props.sent.data.map(
@@ -141,7 +155,6 @@ export class MailList extends React.Component {
       var mail = this.props.draft.data.map(
         function(mail) {
           if (mail.id === id) {
-            console.log("handleMailClick trash ****", id, mail);
             this.setState({ mailData: mail });
           }
           return mail;
@@ -170,7 +183,6 @@ export class MailList extends React.Component {
       this.state.deleteid == this.state.mailData.id
     ) {
       if (this.props.display == "inbox") {
-        console.log("moveToDelete",newState);
         this.moveToDelete(newState, this.props.display);        
       } else if (
         this.props.display == "sent" ||
@@ -180,11 +192,9 @@ export class MailList extends React.Component {
         this.moveToDelete(newState, this.props.display);
       } else if (this.props.display == "trash") {
         var newState = Object.assign({}, this.state.mailData);
-        console.log("trash newState *******",newState);
         if (newState.folder == "inbox") {
           newState.id = newState.folderId;
           this.props.data.data.push(newState);
-          console.log(this.props.data.data);
         } else if (newState.folder == "sent") {
           this.props.storeSentMail(newState);
         } else if (newState.folder == "draft") {
@@ -201,7 +211,6 @@ export class MailList extends React.Component {
     if (this.props.display == "inbox") {
       results = this.props.data.data;
       
-
       data = this.props.inboxData;
     } else if (this.props.display == "sent") {
       results = this.props.sent.data;
@@ -209,8 +218,6 @@ export class MailList extends React.Component {
     } else if (this.props.display == "draft") {
       results = this.props.draft.data;
       data = this.state.mailData;
-      console.log("MailList ***** results ***",results);
-      console.log("MailList ***** mailData ***",data);      
     } else if (this.props.display == "trash") {
       results = this.props.trash.data;
       data = this.state.mailData;
@@ -229,8 +236,6 @@ export class MailList extends React.Component {
           item.from.toLowerCase().includes(this.state.searchText.toLowerCase())
       );
 
-      console.log("filtered MailList **** ", filteredList);
-
       //dropdown sorting
       if (this.state.selectValue == "latest") {
         filteredList.sort((a, b) => a.time < b.time);
@@ -238,14 +243,10 @@ export class MailList extends React.Component {
         filteredList.sort((a, b) => a.time > b.time);
       }
 
-      console.log("filtered MailList sorted **** ", filteredList);
-
       const mail_list_temp = filteredList;
       //rendering list
       var mail_list_per_page = this.paginate(mail_list_temp);
       var is_last = mail_list_per_page.islastPage;
-
-      console.log("mail_list_per_page MailList **** ", mail_list_per_page);
 
       mail_list = mail_list_per_page.mails.map(
         function(mail) {
@@ -258,7 +259,6 @@ export class MailList extends React.Component {
               key={mail.id}
               onClick={() => {
                data = this.handleMailClick(mail.id);
-               console.log("data value onClick button******",data);
               }}
             >
               <i>{this.props.display == "inbox" ? mail.from : mail.to}</i>
@@ -346,7 +346,6 @@ export class MailList extends React.Component {
             </div>
           </div>
         </div>
-        {console.log("MailList calling Mail component ****", data,activeMail)}
         <Mail
           folder={this.props.display}
           inboxData={data}

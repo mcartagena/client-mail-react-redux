@@ -23,7 +23,7 @@ export default (state = {}, action) => {
 
     case DELETE_INBOX_MAIL:
 
-      let newStateDeleted = state.data;
+      let newStateDeleted = state.data?state.data:[{"id":2}];
       newStateDeleted = newStateDeleted.filter((el, index, arr) => { 
         return el.id != action.payload; }
         );

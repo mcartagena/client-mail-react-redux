@@ -13,12 +13,7 @@ export class Folders extends React.Component {
 		this.handleCompose = this.handleCompose.bind(this);
 	}  
   componentWillMount() {
-    console.log("******component Will requestApiData********");    
     this.props.requestApiData();
-  }
-  componentDidMount(){
-    console.log("******component Did requestApiData********"); 
-    console.log("estado",this.props.data);
   }
   handleCompose() {
     this.props.storeComposeMail({

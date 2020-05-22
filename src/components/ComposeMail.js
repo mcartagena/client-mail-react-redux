@@ -43,7 +43,6 @@ export class ComposeMail extends React.Component {
   }
 
   submitValidation() {
-    console.log("*********submitValidation*******");
     if (this.state.to !== "" && this.validateEmail(this.state.to)) {
       this.handleOnSubmit(this.state);
       this.setState({ valid: true });
@@ -55,7 +54,6 @@ export class ComposeMail extends React.Component {
   handleOnSubmit(composeData) {
     this.props.storeSentMail(composeData);
     if (this.props.compose.data.id) {
-      console.log("delete draft");
       this.props.deleteDraftMail(this.props.compose.data.id);
     }
   }
@@ -69,7 +67,6 @@ export class ComposeMail extends React.Component {
   }
 
   componentDidMount() {
-    console.log("componentDidMount",  JSON.stringify(this.props.compose))
     this.setState({ id: this.props.compose.data.id });
     this.setState({ from: this.props.compose.data.from });
     this.setState({ to: this.props.compose.data.to });

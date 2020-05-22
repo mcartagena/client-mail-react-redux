@@ -13,18 +13,12 @@ initialState.data = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case STORE_COMPOSE_MAIL:
-      console.log("STORE_COMPOSE_MAIL");
       if (action.payload) {
         let compose = {
             ...state,
-            data: {
-              id: action.payload.id,
-              from: action.payload.from,
-              to: action.payload.to,
-              subject: action.payload.subject,
-              time: action.payload.time,
-              body: action.payload.body
-            }
+            data: [
+              ...action.payload
+            ]
         };
 
         return compose;
@@ -32,6 +26,6 @@ export default (state = initialState, action) => {
         return initialState;
       }
     default:
-      return null;
+      return initialState;
   }
 }; 

@@ -26,18 +26,16 @@ export default (state = {}, action) => {
       newElement = [
         ...newElement,
         {
-          id: action.payload.id,
+          id: initialState.id,
           from: action.payload.from,
           to: action.payload.to,
           subject: action.payload.subject,
-          folder: action.payload.folder,
-          folderId: action.payload.folderId,
-          time: action.payload.time,
+          time: action.payload.time==""?new Date().toUTCString():action.payload.time,
           body: action.payload.body
         }];
-      console.log("STORE_SEND_MAIL ****", state);
       return {
         ...state,
+        id:parseInt(initialState.id)+1,
         data: newElement
       };
     case DELETE_SENT_MAIL:
@@ -50,6 +48,7 @@ export default (state = {}, action) => {
 
       return {
         ...state,
+        id:parseInt(initialState.id)+1,
         data: newStateDeleted
       };
 

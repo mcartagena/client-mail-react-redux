@@ -39,18 +39,16 @@ export default (state = {}, action) => {
       newElement = [
         ...newElement,
         {
-          id: action.payload.id,
+          id: state.id?state.id:initialState.id,
           from: action.payload.from,
           to: action.payload.to,
           subject: action.payload.subject,
-          folder: action.payload.folder,
-          folderId: action.payload.folderId,
-          time: action.payload.time,
+          time: new Date().toUTCString(),
           body: action.payload.body
         }];
-      console.log("STORE_DRAFT_MAIL ****", state);
       return {
         ...state,
+        id:state.id?parseInt(state.id)+1:parseInt(initialState.id)+1,
         data: newElement
       };
 
@@ -64,6 +62,7 @@ export default (state = {}, action) => {
 
       return {
         ...state,
+        id:parseInt(initialState.id)+1,
         data: newStateDeleted
       };
 
@@ -76,18 +75,16 @@ export default (state = {}, action) => {
       newRefactor = [
         ...newRefactor,
         {
-          id: action.payload.id,
+          id: state.id?parseInt(state.id)+1:parseInt(initialState.id)+1,
           from: action.payload.from,
           to: action.payload.to,
           subject: action.payload.subject,
-          folder: action.payload.folder,
-          folderId: action.payload.folderId,
-          time: action.payload.time,
+          time:new Date().toUTCString(),
           body: action.payload.body
         }];
-      console.log("RESTORE_DRAFT_MAIL ****", newRefactor);
       return {
         ...state,
+        id:state.id?parseInt(state.id)+2:parseInt(initialState.id)+2,
         data: newRefactor
       };
 

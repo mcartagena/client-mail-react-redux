@@ -47,12 +47,11 @@ export class Mail extends React.Component {
 	}
 	render() {
 		let mail_body_id = this.props.mail;
-		console.log("Mail ******", mail_body_id);
 		if (mail_body_id == 0) {
 			var mailbody = (
 				<div className="emptymail">
 					<p>
-						<strong></strong>
+						<strong>Select a mail to read.</strong>
 					</p>
 				</div>
 			);
@@ -109,7 +108,7 @@ export class Mail extends React.Component {
 						<button
 							type="submit"
 							className={
-								"" +
+								"btn-success pull-right composebtn" +
 								(this.props.folder == "draft" ? "" : " visible")
 							}
 						>

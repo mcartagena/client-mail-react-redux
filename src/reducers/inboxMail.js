@@ -12,10 +12,7 @@ export default (state={},{type,inboxData}) => {
          body: inboxData.body
       }
 
-      return { 
-        ...state,
-        ...newState
-      };
+      return newState;
     default:
       return state;
   }

@@ -24,7 +24,6 @@ export default (state = {}, action) => {
     case READ_TRASH_MAIL:
 
       if (state.data) {
-        console.log("READ_TRASH_MAIL ****", state);
         return state;
       } else {
         return initialState;
@@ -52,7 +51,7 @@ export default (state = {}, action) => {
       newElement = [
         ...newElement,        
         {
-          id: state.id?state.id:3001,
+          id: state.id?state.id:initialState.id,
           from: action.payload.from,
           to: action.payload.to,
           subject: action.payload.subject,
@@ -61,10 +60,9 @@ export default (state = {}, action) => {
           time: action.payload.time,
           body: action.payload.body
         }];
-      console.log("STORE_TRASH_MAIL ****", state);
       return {
         ...state,
-        id:state.id?parseInt(state.id)+1:3002,
+        id:state.id?parseInt(state.id)+1:parseInt(initialState.id)+1,  
         data: newElement
       };
     /*
@@ -84,6 +82,7 @@ export default (state = {}, action) => {
       
       return {
         ...state,
+        id:state.id?parseInt(state.id)+1:parseInt(initialState.id)+1,
         data: newStateRestored
       };
     default:
