@@ -237,12 +237,19 @@ export class MailList extends React.Component {
       );
 
       //dropdown sorting
-      if (this.state.selectValue == "latest") {
-        filteredList.sort((a, b) => a.time < b.time);
+      if (this.state.selectValue == "latest") {        
+        filteredList.sort((a, b) =>{
+          var c = new Date(a.time);
+          var d = new Date(b.time);
+          return d-c;           
+        });
       } else {
-        filteredList.sort((a, b) => a.time > b.time);
+        filteredList.sort((a, b) => {
+          var c = new Date(a.time);
+          var d = new Date(b.time);
+          return c-d;          
+        });
       }
-
       const mail_list_temp = filteredList;
       //rendering list
       var mail_list_per_page = this.paginate(mail_list_temp);
@@ -307,14 +314,14 @@ export class MailList extends React.Component {
                   placeholder="Search.."
                   autoComplete="off"
                   name="search"
-                  
+                  onChange={this.handleOnChange}
                 />
               </form>
 
               <div className="sort-drop-down">
                 <select
                   className="drop-down"
-                  
+                  onChange={this.handleDropdownChange}
                   value={this.state.selectValue}
                 >
                   <option value="latest">Newest on top</option>
